@@ -319,7 +319,7 @@ a {
 .header-container {
   width: 100%;
   height: 60px;
-  position: fixed;
+  /* position: fixed; */
   z-index: 1000;
   background-color: white;
   border-bottom: 1px solid #e5e7eb;

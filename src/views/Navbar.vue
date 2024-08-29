@@ -22,7 +22,7 @@
             <select
               v-model="selectedCountry"
               @change="updateSelection"
-              class="text-white text-sm border-none"
+              class="text-white text-sm border-none bg-transparent"
             >
               <option
                 v-for="country in countries"
@@ -58,7 +58,7 @@
         <button @click="closeModal" class="modal-close-btn">
           <i class="fas fa-times"></i>
         </button>
-        <h2 class="modal-title mt-6">Sign in</h2>
+        <h2 class="modal-title mt-10">Sign in</h2> <!-- Title shifted down -->
         <p class="modal-subtitle">Sign in to your account using email and password provided during registration.</p>
         <form @submit.prevent="submitLogin">
           <div class="input-group align-left">
@@ -76,27 +76,27 @@
             <label for="login-remember">Keep me signed in</label>
           </div>
 
-          <a href="#" class="forgot-password">Forgot password?</a>
+          <a href="#" class="forgot-password text-left">Forgot password?</a> <!-- Left aligned -->
           <button type="submit" class="modal-btn">Sign in</button>
         </form>
 
         <!-- Horizontal Line -->
-        <p class="switch-auth">Don't have an account? <a @click="openModal('register')">Sign up</a></p>
+        <p class="switch-auth text-left">Don't have an account? <a @click="openModal('register')">Sign up</a></p> <!-- Left aligned -->
         <div class="horizontal-line"></div>
 
         <div class="social-login">
           <p>Or sign in with</p>
-          <div class="social-icons">
-            <button class="social-btn">
+          <div class="social-icons small-icons"> <!-- Added class for smaller icons -->
+            <button class="social-btn small-btn">
               <i class="fab fa-facebook ml-1"></i>
             </button>
-            <button class="social-btn">
+            <button class="social-btn small-btn">
               <i class="fab fa-google ml-1"></i>
             </button>
-            <button class="social-btn">
+            <button class="social-btn small-btn">
               <i class="fab fa-twitter ml-1"></i>
             </button>
-            <button class="social-btn">
+            <button class="social-btn small-btn">
               <i class="fab fa-linkedin ml-1"></i>
             </button>
           </div>
@@ -139,24 +139,24 @@
           </div>
           <button type="submit" class="modal-btn">Sign up</button>
         </form>
-        <p class="switch-auth">Already have an account? <a @click="openModal('login')">Sign in</a></p>
+        <p class="switch-auth text-left">Already have an account? <a @click="openModal('login')">Sign in</a></p> <!-- Left aligned -->
 
         <!-- Horizontal Line -->
         <div class="horizontal-line"></div>
 
         <div class="social-login">
           <p>Or sign up with</p>
-          <div class="social-icons">
-            <button class="social-btn">
+          <div class="social-icons small-icons"> <!-- Added class for smaller icons -->
+            <button class="social-btn small-btn">
               <i class="fab fa-facebook ml-1"></i>
             </button>
-            <button class="social-btn">
+            <button class="social-btn small-btn">
               <i class="fab fa-google ml-1"></i>
             </button>
-            <button class="social-btn">
+            <button class="social-btn small-btn">
               <i class="fab fa-twitter ml-1"></i>
             </button>
-            <button class="social-btn">
+            <button class="social-btn small-btn">
               <i class="fab fa-linkedin ml-1"></i>
             </button>
           </div>
@@ -225,14 +225,15 @@ export default {
     },
   },
   methods: {
-    updateSelection() {
-      // Implement selection change logic here
-    },
     openModal(type) {
       this.showModal = type;
     },
     closeModal() {
       this.showModal = null;
+    },
+    updateSelection(event) {
+      const selectedCode = event.target.value;
+      this.selectedCountry = selectedCode;
     },
     submitLogin() {
       // Handle login submission
@@ -267,7 +268,7 @@ button {
 
 /* Modal styles */
 .modal-overlay {
-  position: fixed;
+  /* position: fixed; */
   top: 0;
   left: 0;
   right: 0;
@@ -295,6 +296,7 @@ button {
 .modal-title {
   font-size: 1.5rem;
   font-weight: bold;
+  margin-top: 30px; /* Increased margin-top */
   margin-bottom: 10px;
 }
 
@@ -368,6 +370,7 @@ button {
   margin-bottom: 10px;
   color: #0f766e;
   font-size: 0.875rem;
+  text-align: left; /* Align left */
 }
 
 /* Align submit button after forgot password */
@@ -387,6 +390,7 @@ button {
 .switch-auth {
   font-size: 0.875rem;
   margin-top: 20px;
+  text-align: left; /* Align left */
 }
 
 .switch-auth a {
@@ -412,7 +416,7 @@ button {
 .social-btn {
   background-color: #e5e7eb;
   border: none;
-  padding: 10px;
+  padding: 8px; /* Reduced padding for smaller icons */
   border-radius: 5px;
   cursor: pointer;
 }
@@ -422,7 +426,7 @@ button {
 }
 
 .social-btn i {
-  font-size: 1.25rem;
+  font-size: 1rem; /* Reduced icon size */
 }
 
 /* Horizontal line above the social login section */
