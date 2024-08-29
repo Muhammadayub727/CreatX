@@ -2,7 +2,7 @@
   <div class="container">
     <!-- Top Header -->
     <div
-      class="w-full h-[50px]  flex items-center justify-between px-[170px] border-b bg-[#1E212C] flex items-center justify-center"
+      class="w-full h-[40px]  flex items-center justify-between px-[170px] border-b bg-[#1E212C] flex items-center justify-center"
     >
       <div class="container flex items-center justify-between px-4">
         <div>
