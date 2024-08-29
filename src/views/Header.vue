@@ -364,7 +364,7 @@ a {
 
 .full-width-modal {
   position: absolute;
-  top: 60px;
+  top: 110px;
   left: 0;
   width: 100%;
   background-color: white;

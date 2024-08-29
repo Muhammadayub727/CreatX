@@ -1,21 +1,26 @@
 <template>
     <div class="w-full h-full">
-        <Navbar/>
-        <Header/>
+      <Navbar />
+      <Header />
+      <ShopOur />
     </div>
-</template>
-
-<script>
-import Navbar from "./Navbar.vue"
-import Header from "./Header.vue"
-export default {
+  </template>
+  
+  <script>
+  import Navbar from "./Navbar.vue";
+  import Header from "./Header.vue";
+  import ShopOur from "./ShopOur.vue";
+  
+  export default {
     components: {
-        Navbar,
-        Header
+      Navbar,
+      Header,
+      ShopOur
     }
-}   
-</script>
-
-<style>
-
-</style>
+  };
+  </script>
+  
+  <style>
+  /* Add your styles here */
+  </style>
+  

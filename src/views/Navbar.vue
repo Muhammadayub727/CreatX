@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="container">
     <!-- Top Header -->
     <div
-      class="w-full h-[40px] border-b bg-[#1E212C] flex items-center justify-center"
+      class="w-full h-[50px]  flex items-center justify-between px-[170px] border-b bg-[#1E212C] flex items-center justify-center"
     >
       <div class="container flex items-center justify-between px-4">
         <div>
@@ -29,7 +29,8 @@
                 :value="country.code"
                 :key="country.code"
               >
-                {{ country.language }} / {{ country.currency }} {{ country.code }}
+                {{ country.language }} / {{ country.currency }}
+                {{ country.code }}
               </option>
             </select>
           </div>
@@ -58,35 +59,60 @@
         <button @click="closeModal" class="modal-close-btn">
           <i class="fas fa-times"></i>
         </button>
-        <h2 class="modal-title mt-10">Sign in</h2> <!-- Title shifted down -->
-        <p class="modal-subtitle">Sign in to your account using email and password provided during registration.</p>
+        <h2 class="modal-title mt-10">Sign in</h2>
+        <!-- Title shifted down -->
+        <p class="modal-subtitle">
+          Sign in to your account using email and password provided during
+          registration.
+        </p>
         <form @submit.prevent="submitLogin">
           <div class="input-group align-left">
             <label for="login-email">Email</label>
-            <input type="email" id="login-email" v-model="loginEmail" placeholder="Your working email" required />
+            <input
+              type="email"
+              id="login-email"
+              v-model="loginEmail"
+              placeholder="Your working email"
+              required
+            />
           </div>
-          
+
           <div class="input-group align-left">
             <label for="login-password">Password</label>
-            <input type="password" id="login-password" v-model="loginPassword" placeholder="••••••••••" required />
+            <input
+              type="password"
+              id="login-password"
+              v-model="loginPassword"
+              placeholder="••••••••••"
+              required
+            />
           </div>
 
           <div class="checkbox-wrapper">
-            <input type="checkbox" id="login-remember" v-model="loginRemember" />
+            <input
+              type="checkbox"
+              id="login-remember"
+              v-model="loginRemember"
+            />
             <label for="login-remember">Keep me signed in</label>
           </div>
 
-          <a href="#" class="forgot-password text-left">Forgot password?</a> <!-- Left aligned -->
+          <a href="#" class="forgot-password text-left">Forgot password?</a>
+          <!-- Left aligned -->
           <button type="submit" class="modal-btn">Sign in</button>
         </form>
 
         <!-- Horizontal Line -->
-        <p class="switch-auth text-left">Don't have an account? <a @click="openModal('register')">Sign up</a></p> <!-- Left aligned -->
+        <p class="switch-auth text-left">
+          Don't have an account? <a @click="openModal('register')">Sign up</a>
+        </p>
+        <!-- Left aligned -->
         <div class="horizontal-line"></div>
 
         <div class="social-login">
           <p>Or sign in with</p>
-          <div class="social-icons small-icons"> <!-- Added class for smaller icons -->
+          <div class="social-icons small-icons">
+            <!-- Added class for smaller icons -->
             <button class="social-btn small-btn">
               <i class="fab fa-facebook ml-1"></i>
             </button>
@@ -105,48 +131,87 @@
     </div>
 
     <!-- Register Modal -->
-    <div v-if="showModal === 'register'" class="modal-overlay" @click="closeModal">
+    <div
+      v-if="showModal === 'register'"
+      class="modal-overlay"
+      @click="closeModal"
+    >
       <div class="modal-content auto-height" @click.stop>
         <button @click="closeModal" class="modal-close-btn">
           <i class="fas fa-times"></i>
         </button>
         <h2 class="modal-title">Sign up</h2>
-        <p class="modal-subtitle">Registration takes less than a minute but gives you full control over your orders.</p>
+        <p class="modal-subtitle">
+          Registration takes less than a minute but gives you full control over
+          your orders.
+        </p>
         <form @submit.prevent="submitRegister">
           <div class="input-group align-left">
             <label for="register-name">Full Name</label>
-            <input type="text" id="register-name" v-model="registerName" placeholder="Your full name" required />
+            <input
+              type="text"
+              id="register-name"
+              v-model="registerName"
+              placeholder="Your full name"
+              required
+            />
           </div>
-          
+
           <div class="input-group align-left">
             <label for="register-email">Email</label>
-            <input type="email" id="register-email" v-model="registerEmail" placeholder="Your working email" required />
+            <input
+              type="email"
+              id="register-email"
+              v-model="registerEmail"
+              placeholder="Your working email"
+              required
+            />
           </div>
-          
+
           <div class="input-group align-left">
             <label for="register-password">Password</label>
-            <input type="password" id="register-password" v-model="registerPassword" placeholder="••••••••••" required />
+            <input
+              type="password"
+              id="register-password"
+              v-model="registerPassword"
+              placeholder="••••••••••"
+              required
+            />
           </div>
-          
+
           <div class="input-group align-left">
             <label for="register-confirm-password">Confirm Password</label>
-            <input type="password" id="register-confirm-password" v-model="registerConfirmPassword" placeholder="••••••••••" required />
+            <input
+              type="password"
+              id="register-confirm-password"
+              v-model="registerConfirmPassword"
+              placeholder="••••••••••"
+              required
+            />
           </div>
-          
+
           <div class="checkbox-wrapper">
-            <input type="checkbox" id="register-remember" v-model="registerRemember" />
+            <input
+              type="checkbox"
+              id="register-remember"
+              v-model="registerRemember"
+            />
             <label for="register-remember">Remember me</label>
           </div>
           <button type="submit" class="modal-btn">Sign up</button>
         </form>
-        <p class="switch-auth text-left">Already have an account? <a @click="openModal('login')">Sign in</a></p> <!-- Left aligned -->
+        <p class="switch-auth text-left">
+          Already have an account? <a @click="openModal('login')">Sign in</a>
+        </p>
+        <!-- Left aligned -->
 
         <!-- Horizontal Line -->
         <div class="horizontal-line"></div>
 
         <div class="social-login">
           <p>Or sign up with</p>
-          <div class="social-icons small-icons"> <!-- Added class for smaller icons -->
+          <div class="social-icons small-icons">
+            <!-- Added class for smaller icons -->
             <button class="social-btn small-btn">
               <i class="fab fa-facebook ml-1"></i>
             </button>
@@ -177,13 +242,13 @@ export default {
     return {
       selectedCountry: "US",
       showModal: null,
-      loginEmail: '',
-      loginPassword: '',
+      loginEmail: "",
+      loginPassword: "",
       loginRemember: false,
-      registerName: '',
-      registerEmail: '',
-      registerPassword: '',
-      registerConfirmPassword: '',
+      registerName: "",
+      registerEmail: "",
+      registerPassword: "",
+      registerConfirmPassword: "",
       registerRemember: false,
       countries: [
         {
