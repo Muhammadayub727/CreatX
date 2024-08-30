@@ -3,12 +3,12 @@
     <swiper
       :slides-per-view="1"
       :loop="true"
-      :autoplay="{ delay: 1000 }" 
+      :autoplay="{ delay: 1000 }"
       :pagination="{
         clickable: true,
         renderBullet: renderBullet
       }"
-      ref="mySwiper"
+      ref="swiperRef"
     >
       <swiper-slide v-for="(slide, index) in slides" :key="index">
         <div class="slide-content">
@@ -16,15 +16,14 @@
           <div class="slide-overlay">
             <h2>{{ slide.title }}</h2>
             <div class="buttons">
-              <button>Shop Sale</button>
-              <button>Shop the Menswear</button>
+              <button @click="goNext">Shop Sale</button>
+              <button @click="goPrev">Shop the Menswear</button>
             </div>
           </div>
         </div>
       </swiper-slide>
     </swiper>
 
-    <!-- Custom Navigation buttons -->
     <div class="custom-swiper-button-prev" @click="goPrev">
       <i class="fas fa-arrow-left"></i>
     </div>
@@ -36,14 +35,51 @@
 
 <script>
 import { Swiper, SwiperSlide } from 'swiper/vue';
-import 'swiper/swiper-bundle.css';
-import SliderImage from '../assets/img/Slider.png';
+import 'swiper/swiper-bundle.css'; 
+import { ref, onMounted } from 'vue'; 
+import SliderImage from '../assets/img/Slider.png'; 
 
 export default {
   name: 'SliderComponents',
   components: {
     Swiper,
     SwiperSlide,
+  },
+  setup() {
+    const swiperRef = ref(null);
+
+    const goNext = () => {
+      if (swiperRef.value && swiperRef.value.swiper) {
+        swiperRef.value.swiper.slideNext();
+        restartAutoplay();
+      }
+    };
+
+    const goPrev = () => {
+      if (swiperRef.value && swiperRef.value.swiper) {
+        swiperRef.value.swiper.slidePrev();
+        restartAutoplay();
+      }
+    };
+
+    const restartAutoplay = () => {
+      if (swiperRef.value && swiperRef.value.swiper) { 
+        swiperRef.value.swiper.autoplay.stop();
+        swiperRef.value.swiper.autoplay.start();
+      }
+    };
+
+    onMounted(() => {
+      if (swiperRef.value) {
+        console.log('Swiper initialized', swiperRef.value.swiper);
+      }
+    });
+
+    return {
+      swiperRef,
+      goNext,
+      goPrev,
+    };
   },
   data() {
     return {
@@ -58,14 +94,6 @@ export default {
   methods: {
     renderBullet(index, className) {
       return `<span class="${className}">${index + 1}</span>`;
-    },
-    goNext() {
-      this.$refs.mySwiper.swiper.slideNext(); // Navigate to the next slide
-      this.$refs.mySwiper.swiper.autoplay.start(); // Restart autoplay after manual navigation
-    },
-    goPrev() {
-      this.$refs.mySwiper.swiper.slidePrev(); // Navigate to the previous slide
-      this.$refs.mySwiper.swiper.autoplay.start(); // Restart autoplay after manual navigation
     },
   },
 };
@@ -95,7 +123,7 @@ export default {
 
 .slide-image {
   width: 100%;
-  height: 100%; /* Ensures image height matches the container height */
+  height: 100%;
   object-fit: cover;
 }
 
@@ -135,7 +163,6 @@ button:hover {
   background-color: #0369a1;
 }
 
-/* Custom Swiper Navigation Buttons */
 .custom-swiper-button-prev,
 .custom-swiper-button-next {
   background-color: white;
