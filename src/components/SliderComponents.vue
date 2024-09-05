@@ -4,20 +4,30 @@
       :slides-per-view="1"
       :loop="true"
       :autoplay="{ delay: 1000 }"
-      :pagination="{
-        clickable: true,
-        renderBullet: renderBullet
-      }"
+      :pagination="false"
       ref="swiperRef"
+      @slideChange="updatePagination"
     >
       <swiper-slide v-for="(slide, index) in slides" :key="index">
         <div class="slide-content">
           <img :src="slide.image" alt="Slide Image" class="slide-image" />
           <div class="slide-overlay">
+            <p class="subtitle">NEW COLLECTION</p>
             <h2>{{ slide.title }}</h2>
             <div class="buttons">
-              <button @click="goNext">Shop Sale</button>
-              <button @click="goPrev">Shop the Menswear</button>
+              <button @click="goNext" class="outline-button">Shop sale</button>
+              <button @click="goPrev" class="filled-button">Shop the menswear</button>
+            </div>
+            <!-- Custom Pagination -->
+            <div class="custom-pagination">
+              <span
+                v-for="(slide, index) in slides"
+                :key="index"
+                :class="['pagination-number', { active: activeIndex === index }]"
+                @click="setActive(index)"
+              >
+                {{ index + 1 < 10 ? `0${index + 1}` : index + 1 }}
+              </span>
             </div>
           </div>
         </div>
@@ -35,9 +45,10 @@
 
 <script>
 import { Swiper, SwiperSlide } from 'swiper/vue';
-import 'swiper/swiper-bundle.css'; 
-import { ref, onMounted } from 'vue'; 
-import SliderImage from '../assets/img/Slider.png'; 
+import 'swiper/swiper-bundle.css';
+import { ref, onMounted } from 'vue';
+import SliderImage from '../assets/img/Slider.png';
+
 
 export default {
   name: 'SliderComponents',
@@ -47,6 +58,7 @@ export default {
   },
   setup() {
     const swiperRef = ref(null);
+    const activeIndex = ref(0);
 
     const goNext = () => {
       if (swiperRef.value && swiperRef.value.swiper) {
@@ -62,23 +74,45 @@ export default {
       }
     };
 
+    const goToSlide = (index) => {
+      if (swiperRef.value && swiperRef.value.swiper) {
+        swiperRef.value.swiper.slideToLoop(index);
+        restartAutoplay();
+      }
+    };
+
+    const updatePagination = () => {
+      if (swiperRef.value && swiperRef.value.swiper) {
+        activeIndex.value = swiperRef.value.swiper.realIndex || 0;
+      }
+    };
+
     const restartAutoplay = () => {
-      if (swiperRef.value && swiperRef.value.swiper) { 
+      if (swiperRef.value && swiperRef.value.swiper) {
         swiperRef.value.swiper.autoplay.stop();
         swiperRef.value.swiper.autoplay.start();
       }
     };
 
+    const setActive = (index) => {
+      goToSlide(index);
+      activeIndex.value = index;
+    };
+
     onMounted(() => {
-      if (swiperRef.value) {
-        console.log('Swiper initialized', swiperRef.value.swiper);
+      if (swiperRef.value && swiperRef.value.swiper) {
+        updatePagination();
       }
     });
 
     return {
       swiperRef,
+      activeIndex,
       goNext,
       goPrev,
+      goToSlide,
+      updatePagination,
+      setActive,
     };
   },
   data() {
@@ -90,12 +124,7 @@ export default {
         { image: SliderImage, title: 'Summer Sale' },
       ],
     };
-  },
-  methods: {
-    renderBullet(index, className) {
-      return `<span class="${className}">${index + 1}</span>`;
-    },
-  },
+  }
 };
 </script>
 
@@ -129,38 +158,64 @@ export default {
 
 .slide-overlay {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 20px;
-  border-radius: 10px;
-  color: white;
+  top: 40%;
+  left: 10%;
+  transform: translateY(-50%);
+  text-align: left;
+  color: #333;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  margin-bottom: -1rem;
+  font-weight: bold;
+  color: #333;
+  margin-top: 4rem;
 }
 
 .slide-overlay h2 {
-  font-size: 2.5rem;
+  font-size: 55px;
   margin-bottom: 1rem;
+  color: #333;
+  font-weight: 900;
+  font-family: 'Lato', sans-serif;
+  letter-spacing: 1px;
 }
 
 .buttons {
   display: flex;
-  justify-content: center;
   gap: 10px;
 }
 
 button {
   padding: 10px 20px;
-  border: none;
-  background-color: #0284c7;
-  color: white;
+  border: 2px solid #333;
   cursor: pointer;
   border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 15px;
 }
 
-button:hover {
-  background-color: #0369a1;
+.outline-button {
+  background-color: transparent;
+  border: 1px solid #17696A;
+  color: #17696A;
+}
+
+.outline-button:hover {
+  background-color: #17696A;
+  color: white;
+}
+
+.filled-button {
+  background-color: #17696A;
+  color: white;
+  border: none;
+}
+
+.filled-button:hover {
+  background-color: #17696A;
 }
 
 .custom-swiper-button-prev,
@@ -189,14 +244,41 @@ button:hover {
   right: 10px;
 }
 
-.swiper-pagination-bullet {
-  background-color: #333;
-  width: 12px;
-  height: 12px;
-  margin: 0 5px;
+.custom-pagination {
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px;
+  margin-top: 20px;
+  font-size: 1.8rem;
+  margin-top: 100px;
 }
 
-.swiper-pagination-bullet-active {
-  background-color: #0284c7;
+.pagination-number {
+  width: 145px;
+  min-height: 55px;
+  color: gray;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.pagination-number::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: gray;
+}
+
+.pagination-number.active {
+  color: #000;
+}
+
+.pagination-number.active::after {
+  background-color: #000;
 }
 </style>
